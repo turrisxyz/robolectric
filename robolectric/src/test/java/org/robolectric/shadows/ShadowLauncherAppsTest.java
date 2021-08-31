@@ -8,6 +8,7 @@ import static android.os.Build.VERSION_CODES.O_MR1;
 import static android.os.Build.VERSION_CODES.R;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.util.reflector.Reflector.reflector;
@@ -273,6 +274,17 @@ public class ShadowLauncherAppsTest {
     assertThat(getPinnedShortcuts(null, c1)).containsExactly(shortcut1);
     assertThat(getPinnedShortcuts(null, c2)).containsExactly(shortcut2);
     assertThat(getPinnedShortcuts(null, c3)).containsExactly(shortcut3);
+  }
+
+  @Test
+  public void testHasShortcutHostPermission() {
+    shadowOf(launcherApps).setShortcutHostPermission(true);
+    assertTrue(launcherApps.hasShortcutHostPermission());
+  }
+
+  @Test
+  public void testHasShortcutHostPermission_returnsFalseByDefault() {
+    assertFalse(launcherApps.hasShortcutHostPermission());
   }
 
   private List<ShortcutInfo> getPinnedShortcuts(String packageName, ComponentName activity) {

@@ -50,6 +50,7 @@ public class ShadowLauncherApps {
   private final Multimap<UserHandle, LauncherActivityInfo> activityList = HashMultimap.create();
 
   private final List<Pair<LauncherApps.Callback, Handler>> callbacks = new ArrayList<>();
+  private boolean shortcutHostPermission = false;
 
   /**
    * Adds a dynamic shortcut to be returned by {@link #getShortcuts(ShortcutQuery, UserHandle)}.
@@ -189,10 +190,19 @@ public class ShadowLauncherApps {
         "This method is not currently supported in Robolectric.");
   }
 
+  /**
+   * Sets whether the caller can access shortcut information as returned by {@link
+   * #hasShortcutHostPermission()}.
+   *
+   * @param permission boolean indicating whether the caller should have this permission.
+   */
+  public void setShortcutHostPermission(boolean permission) {
+    shortcutHostPermission = permission;
+  }
+
   @Implementation(minSdk = N)
   protected boolean hasShortcutHostPermission() {
-    throw new UnsupportedOperationException(
-        "This method is not currently supported in Robolectric.");
+    return shortcutHostPermission;
   }
 
   /**
