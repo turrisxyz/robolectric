@@ -39,6 +39,16 @@ public class LocalActivityInvoker implements ActivityInvoker {
   }
 
   @Override
+  public void startActivityForResult(Intent intent, @Nullable Bundle activityOptions) {
+    controller = getInstrumentation().startActivitySyncInternal(intent, activityOptions);
+  }
+
+  @Override
+  public void startActivityForResult(Intent intent) {
+    startActivityForResult(intent, /* activityOptions= */ null);
+  }
+
+  @Override
   public ActivityResult getActivityResult() {
     checkNotNull(controller);
     checkState(controller.get().isFinishing(), "You must finish your Activity first");
